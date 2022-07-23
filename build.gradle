@@ -7,28 +7,16 @@ plugins {
 }
 
 version = '1.19-1.0'
-group = 'com.authorname.examplemod'
+group = 'org.moddinginquisition.conquistador'
 
-// make sure to change all instances of 'examplemod'/'ExampleMod' in the project folder - not just this one!
-archivesBaseName = 'examplemod' // your modId - must be lowercase and no spaces.
+archivesBaseName = 'conquistador' // your modId - must be lowercase and no spaces.
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-    // There are two popular mappings channels:
-    // Parchment 1.18.2-2022.07.17 (JavaDocs, inline variable names and param names) layered on top of MojMap 1.19
-    // You can find the Parchment version table here: https://github.com/ParchmentMC/Parchment/wiki/Getting-Started
     mappings channel: 'parchment', version: '1.18.2-2022.07.17-1.19'
-
-    // just MojMap 1.19 (method names, non-inline variable names)
-    //mappings channel: 'official', version: '1.19'
-
-    //accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
-
-    // Default run configurations. Use the genIntellijRuns/genEclipseRuns task to generate these for your IDE.
-    // These can be tweaked, removed, or duplicated as needed.
     runs {
         // applies to all run configs
         configureEach {
@@ -36,7 +24,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod { // should match archivesBaseName and your modId
+                conquistador { // should match archivesBaseName and your modId
                     source sourceSets.main
                 }
             }
@@ -60,7 +48,7 @@ minecraft {
 
         data {
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', archivesBaseName, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', 'conquistador', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
         }
     }
 }
@@ -105,10 +93,15 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.19-41.0.110'
 
-    implementation fg.deobf('ga.ozli.minecraftmods.groovylicious:Groovylicious:1.19-0.2.0-SNAPSHOT')
-
     library compileOnly(group: 'net.thesilkminer.mc.austin', name: "aplp-1.19", version: "1.1.1")
     library runtimeOnly(group: 'net.thesilkminer.mc.austin', name: "aplp-1.19", version: "1.1.1", classifier: 'all')
+
+    implementation fg.deobf('ga.ozli.minecraftmods.groovylicious:Groovylicious:1.19-0.2.0-SNAPSHOT')
+
+    def sparkVer = '1.0.0'
+    compileOnly "me.lucko.spark:spark-api:$sparkVer"
+    compileOnly "me.lucko.spark:spark-proto:$sparkVer"
+    runtimeOnly "me.lucko.spark:spark-forge:$sparkVer"
 }
 
 tasks.named('jar', Jar) {
