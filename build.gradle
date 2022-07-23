@@ -7,9 +7,9 @@ plugins {
 }
 
 version = '1.19-1.0'
-group = 'org.moddinginquisition.conquistador'
+group = 'org.moddinginquisition.elconquistador'
 
-archivesBaseName = 'conquistador' // your modId - must be lowercase and no spaces.
+archivesBaseName = 'elconquistador' // your modId - must be lowercase and no spaces.
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -17,6 +17,9 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
     mappings channel: 'parchment', version: '1.18.2-2022.07.17-1.19'
+
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
     runs {
         // applies to all run configs
         configureEach {
@@ -24,7 +27,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                conquistador { // should match archivesBaseName and your modId
+                elconquistador { // should match archivesBaseName and your modId
                     source sourceSets.main
                 }
             }
@@ -48,7 +51,7 @@ minecraft {
 
         data {
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'conquistador', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', 'elconquistador', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
         }
     }
 }
@@ -98,21 +101,21 @@ dependencies {
 
     implementation fg.deobf('ga.ozli.minecraftmods.groovylicious:Groovylicious:1.19-0.2.0-SNAPSHOT')
 
-    def sparkVer = '1.0.0'
-    compileOnly "me.lucko.spark:spark-api:$sparkVer"
-    compileOnly "me.lucko.spark:spark-proto:$sparkVer"
-    runtimeOnly "me.lucko.spark:spark-forge:$sparkVer"
+    final String sparkVer = '1.0.0'
+    compileOnly fg.deobf("me.lucko.spark:spark-api:$sparkVer")
+    compileOnly fg.deobf("me.lucko.spark:spark-proto:$sparkVer")
+    runtimeOnly fg.deobf("me.lucko.spark:spark-forge:$sparkVer")
 }
 
 tasks.named('jar', Jar) {
     manifest {
         attributes([
                 "Specification-Title"     : archivesBaseName,
-                "Specification-Vendor"    : "authorName",
+                "Specification-Vendor"    : "TheModdingInquisition",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,
-                "Implementation-Vendor"   : "authorName",
+                "Implementation-Vendor"   : "TheModdingInquisition",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
