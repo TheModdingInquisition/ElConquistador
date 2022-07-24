@@ -1,3 +1,8 @@
+import net.minecraftforge.gradle.userdev.tasks.JarJar
+import org.moddinginquisiton.gradle.JiJTransformer
+
+import java.nio.file.Files
+
 plugins {
     id 'groovy'
     id 'eclipse'
@@ -93,17 +98,47 @@ repositories {
     }
 }
 
+jarJar.enable()
+
+final var jijTransform = Attribute.of('jijTransform', Boolean)
+
+dependencies {
+    attributesSchema {
+        attribute jijTransform
+    }
+    artifactTypes.getByName('jar') {
+        attributes.attribute(jijTransform, false)
+    }
+    registerTransform(JiJTransformer) {
+        from.attribute(jijTransform, false).attribute(ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE, ArtifactTypeDefinition.JAR_TYPE)
+        to.attribute(jijTransform, true).attribute(ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE, ArtifactTypeDefinition.JAR_TYPE)
+    }
+}
+
+configurations {
+    aplp {
+        canBeConsumed = false
+        canBeResolved = true
+        attributes.attribute jijTransform, true
+    }
+}
+
 dependencies {
     minecraft 'net.minecraftforge:forge:1.19-41.0.110'
 
-    library compileOnly(group: 'net.thesilkminer.mc.austin', name: "aplp-1.19", version: "1.1.1")
-    library runtimeOnly(group: 'net.thesilkminer.mc.austin', name: "aplp-1.19", version: "1.1.1", classifier: 'all')
+    final aplpVersion = '1.1.1'
+
+    compileOnly(group: 'net.thesilkminer.mc.austin', name: "aplp-1.19", version: aplpVersion)
+    aplp(group: 'net.thesilkminer.mc.austin', name: "aplp-1.19", version: "[$aplpVersion,)", classifier: 'all')
+    runtimeOnly "net.thesilkminer.mc.austin:aplp-1.19:$aplpVersion"
+
+    jarJar 'ga.ozli.minecraftmods.groovylicious:Groovylicious:[1.19-0.2.0-SNAPSHOT,)'
 
     implementation fg.deobf('ga.ozli.minecraftmods.groovylicious:Groovylicious:1.19-0.2.0-SNAPSHOT')
 
     final String sparkVer = '1.0.0'
-    compileOnly fg.deobf("me.lucko.spark:spark-api:$sparkVer")
-    compileOnly fg.deobf("me.lucko.spark:spark-proto:$sparkVer")
+    compileOnly "me.lucko.spark:spark-api:$sparkVer"
+    compileOnly "me.lucko.spark:spark-proto:$sparkVer"
     runtimeOnly fg.deobf("me.lucko.spark:spark-forge:$sparkVer")
 }
 
@@ -124,8 +159,21 @@ tasks.named('jar', Jar) {
     finalizedBy 'reobfJar'
 }
 
-// However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
-//publish.dependsOn('reobfJar')
+afterEvaluate {
+    final resolvedFiles = configurations.aplp.resolve()
+    final aplpJar = resolvedFiles.stream().findFirst().orElseThrow()
+    tasks.named('jarJar', JarJar) {
+        it.configuration project.configurations.aplp
+        it.finalizedBy 'reobfJarJar'
+        it.doLast {
+            JiJTransformer.doJijLast(it, aplpJar, project)
+        }
+    }
+}
+
+reobf {
+    jarJar {}
+}
 
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {
