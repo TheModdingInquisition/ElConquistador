@@ -22,7 +22,8 @@ class ClientForgeBusEvents {
     @SubscribeEvent
     static void onScreenOpen(final ScreenEvent.Opening event) {
         if (Configs.Client.showWelcomeScreen && event.newScreen instanceof TitleScreen) {
-            event.newScreen = WelcomeScreen.screen
+            WelcomeScreen.screen.returnToScreen = event.currentScreen // let the welcome screen know where to go back to when closing
+            event.newScreen = WelcomeScreen.screen // open the welcome screen
         }
     }
 
@@ -31,7 +32,7 @@ class ClientForgeBusEvents {
         if (counter > 20) {
             final int fps = Minecraft.instance.fps
             if (fps !== 0 && fps < Configs.Client.lowFramerateThreshold) {
-                LOGGER.info "Low framerate detected: ${Minecraft.instance.fps}FPS"
+                LOGGER.info "Low framerate detected: ${fps}FPS"
             }
             counter = 0
         }

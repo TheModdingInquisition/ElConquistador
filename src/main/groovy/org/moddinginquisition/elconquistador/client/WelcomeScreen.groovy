@@ -1,18 +1,10 @@
 package org.moddinginquisition.elconquistador.client
 
-import ga.ozli.minecraftmods.groovylicious.api.gui.Alignment
 import ga.ozli.minecraftmods.groovylicious.api.gui.ExtensibleScreen
-import ga.ozli.minecraftmods.groovylicious.api.gui.Position
 import ga.ozli.minecraftmods.groovylicious.dsl.ScreenBuilder
 import groovy.transform.CompileStatic
-import net.minecraft.Util
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.screens.ConfirmLinkScreen
-import net.minecraft.client.gui.screens.Screen
-import net.minecraft.client.gui.screens.TitleScreen
 import org.moddinginquisition.elconquistador.Configs
-
-import static ga.ozli.minecraftmods.groovylicious.api.gui.ColoursRegistry.instance as Colours
 
 @CompileStatic
 class WelcomeScreen {
@@ -47,7 +39,7 @@ class WelcomeScreen {
             }
             onPress {
                 Configs.Client.showWelcomeScreen = false
-                Minecraft.instance.screen = new TitleScreen()
+                Minecraft.instance.screen = screen.returnToScreen
             }
         }
     }
