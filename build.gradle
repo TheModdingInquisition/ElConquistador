@@ -96,14 +96,14 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.19-41.0.110'
 
-    library compileOnly(group: 'net.thesilkminer.mc.austin', name: "aplp-1.19", version: "1.1.1")
-    library runtimeOnly(group: 'net.thesilkminer.mc.austin', name: "aplp-1.19", version: "1.1.1", classifier: 'all')
+    library compileOnly(group: 'net.thesilkminer.mc.austin', name: "aplp-1.19", version: "1.1.2")
+    library runtimeOnly(group: 'net.thesilkminer.mc.austin', name: "aplp-1.19", version: "1.1.2", classifier: 'all')
 
     implementation fg.deobf('ga.ozli.minecraftmods.groovylicious:Groovylicious:1.19-0.2.0-SNAPSHOT')
 
     final String sparkVer = '1.0.0'
-    compileOnly fg.deobf("me.lucko.spark:spark-api:$sparkVer")
-    compileOnly fg.deobf("me.lucko.spark:spark-proto:$sparkVer")
+    compileOnly "me.lucko.spark:spark-api:$sparkVer"
+    compileOnly "me.lucko.spark:spark-proto:$sparkVer"
     runtimeOnly fg.deobf("me.lucko.spark:spark-forge:$sparkVer")
 }
 
