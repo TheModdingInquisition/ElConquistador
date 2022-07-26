@@ -25,6 +25,8 @@ import java.util.zip.ZipException
 @CompileStatic
 abstract class JiJTransformer implements TransformAction<TransformParameters.None> {
 
+    private static final String LICENSE_URL = 'https://raw.githubusercontent.com/TheSilkMiner/APLPKIGB/dbe1c09bce8f32b7fbe4610f1de2d79b10a39d88/LICENSE'
+
     @InputArtifact
     abstract Provider<FileSystemLocation> getInputArtifact()
 
@@ -88,6 +90,12 @@ abstract class JiJTransformer implements TransformAction<TransformParameters.Non
                 aplpVersion,
                 langEntry.name
             )
+
+            try (final var is = URI.create(LICENSE_URL).toURL().openStream()) {
+                out.putNextEntry(new ZipEntry('LICENSE'))
+                out.write(is.readAllBytes())
+                out.closeEntry()
+            }
 
             if (!jarsJson.isEmpty()) {
                 final entry = new ZipEntry('META-INF/jarjar/metadata.json')

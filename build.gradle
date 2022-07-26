@@ -138,7 +138,9 @@ dependencies {
     final String sparkVer = '1.0.0'
     compileOnly "me.lucko.spark:spark-api:$sparkVer"
     compileOnly "me.lucko.spark:spark-proto:$sparkVer"
+
     runtimeOnly fg.deobf("me.lucko.spark:spark-forge:$sparkVer")
+    jarJar "me.lucko.spark:spark-forge:[$sparkVer,)"
 }
 
 tasks.named('jar', Jar) {
