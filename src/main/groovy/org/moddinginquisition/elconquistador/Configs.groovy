@@ -10,15 +10,12 @@ class Configs {
 
     @Config
     static class Common {
-
-        // Groovylicious todo: support Config { ConfigGroup { } } without requiring properties in Config first
-
-        /**
-         * If true, we'll notify you when we detect that you're using a mod known to cause lag and if there's a fixed updated version available.
-         */
-        static boolean enableKnownSlowModsNotifier = true
-
         static class KnownSlowModsNotifier {
+            /**
+             * If true, we'll notify you when we detect that you're using a mod known to cause lag and if there's a fixed updated version available.
+             */
+            static boolean enable = true
+
             /**
              * By default, we'll only notify you about known slow mods when there's an updated fixed version already available.<br>
              * If you want to be notified about all slow mods, set this to false.

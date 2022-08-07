@@ -1,8 +1,6 @@
 import net.minecraftforge.gradle.userdev.tasks.JarJar
 import org.moddinginquisiton.gradle.JiJTransformer
 
-import java.nio.file.Files
-
 plugins {
     id 'groovy'
     id 'eclipse'
@@ -124,18 +122,17 @@ configurations {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19-41.0.110'
+    minecraft 'net.minecraftforge:forge:1.19.2-43.0.0'
 
     final String aplpVersion = '1.1.2'
-    compileOnly(group: 'net.thesilkminer.mc.austin', name: "aplp-1.19", version: aplpVersion)
-    aplp(group: 'net.thesilkminer.mc.austin', name: "aplp-1.19", version: "[$aplpVersion,)", classifier: 'all')
+    compileOnly "net.thesilkminer.mc.austin:aplp-1.19:$aplpVersion"
     runtimeOnly "net.thesilkminer.mc.austin:aplp-1.19:$aplpVersion"
+    aplp(group: 'net.thesilkminer.mc.austin', name: "aplp-1.19", version: "[$aplpVersion,)", classifier: 'all')
 
-    jarJar 'ga.ozli.minecraftmods.groovylicious:Groovylicious:[1.19-0.2.0-SNAPSHOT,)'
+    implementation fg.deobf('ga.ozli.minecraftmods.groovylicious:Groovylicious:1.19.2-0.2.0-SNAPSHOT')
+    jarJar 'ga.ozli.minecraftmods.groovylicious:Groovylicious:[1.19.2-0.2.0-SNAPSHOT,)'
 
-    implementation fg.deobf('ga.ozli.minecraftmods.groovylicious:Groovylicious:1.19-0.2.0-SNAPSHOT')
-
-    final String sparkVer = '1.0.0'
+    final String sparkVer = '1.1.0'
     compileOnly "me.lucko.spark:spark-api:$sparkVer"
     compileOnly "me.lucko.spark:spark-proto:$sparkVer"
 

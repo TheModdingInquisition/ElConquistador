@@ -43,7 +43,9 @@ class ClientModBusEvents {
             size(150, 20)
             onPress {
                 // todo: support Configs.Client.configFile in Groovylicious
-                configScreen.openFile(new File(FMLPaths.CONFIGDIR.get().toString(), "$MOD_ID-client.toml"))
+                //configScreen.openFile(new File(FMLPaths.CONFIGDIR.get().toString(), "$MOD_ID-client.toml"))
+                final URI uri = (new File(FMLPaths.CONFIGDIR.get().toString(), "${MOD_ID}-client.toml")).toURI()
+                configScreen.openLink(uri)
             }
         }
 
@@ -66,5 +68,6 @@ class ClientModBusEvents {
     @SubscribeEvent
     static void onModConstruction(final FMLConstructModEvent event) {
         ConfigUtils.registerConfigScreen(MOD_ID, configScreen)
+        //ModLoadingContext.get().registerConfigScreen(configScreen)
     }
 }

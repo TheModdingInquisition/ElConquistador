@@ -2,7 +2,9 @@ package org.moddinginquisition.elconquistador.client
 
 import groovy.transform.CompileStatic
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.components.toasts.SystemToast
 import net.minecraft.client.gui.screens.TitleScreen
+import net.minecraft.network.chat.Component
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.event.ScreenEvent
 import net.minecraftforge.event.TickEvent
@@ -10,6 +12,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.thesilkminer.mc.austin.api.EventBus
 import net.thesilkminer.mc.austin.api.EventBusSubscriber
 import org.moddinginquisition.elconquistador.Configs
+import org.moddinginquisition.elconquistador.OptifineHandler
 
 import static org.moddinginquisition.elconquistador.ElConquistador.*
 
@@ -19,7 +22,7 @@ class ClientForgeBusEvents {
 
     static int counter = 0
 
-    @SubscribeEvent
+    //@SubscribeEvent
     static void onScreenOpen(final ScreenEvent.Opening event) {
         if (Configs.Client.showWelcomeScreen && event.newScreen instanceof TitleScreen) {
             WelcomeScreen.screen.returnToScreen = event.currentScreen // let the welcome screen know where to go back to when closing
@@ -27,8 +30,8 @@ class ClientForgeBusEvents {
         }
     }
 
-    @SubscribeEvent
-    static void onClickTick(final TickEvent.ClientTickEvent event) {
+    //@SubscribeEvent
+    static void onClientTick(final TickEvent.ClientTickEvent event) {
         if (counter > 20) {
             final int fps = Minecraft.instance.fps
             if (fps !== 0 && fps < Configs.Client.lowFramerateThreshold) {
