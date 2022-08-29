@@ -1,31 +1,29 @@
 package org.moddinginquisition.elconquistador.client
 
+import com.matyrobbrt.gml.bus.EventBusSubscriber
+import com.matyrobbrt.gml.util.Environment
 import groovy.transform.CompileStatic
 import me.lucko.spark.api.Spark
 import me.lucko.spark.api.SparkProvider
 import me.lucko.spark.api.profiler.Profiler
 import me.lucko.spark.api.profiler.ProfilerConfiguration
-import me.lucko.spark.api.profiler.ProfilerConfigurationBuilder
 import me.lucko.spark.api.profiler.report.ReportConfiguration
 import me.lucko.spark.api.statistic.StatisticWindow
 import me.lucko.spark.proto.SparkSamplerProtos
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.thesilkminer.mc.austin.api.EventBus
-import net.thesilkminer.mc.austin.api.EventBusSubscriber
 
 import java.time.Duration
 
 import static org.moddinginquisition.elconquistador.ElConquistador.LOGGER
-import static org.moddinginquisition.elconquistador.ElConquistador.MOD_ID
 
 @CompileStatic
-@EventBusSubscriber(modId = MOD_ID, bus = EventBus.FORGE)
+@EventBusSubscriber(environment = Environment.DEV)
 class CommonForgeBusEvents {
 
     static int counter = 0
 
-    //@SubscribeEvent
+    @SubscribeEvent
     static void onServerTick(final TickEvent.ServerTickEvent event) {
         if (counter > 1000) {
             LOGGER.info SV(SparkProvider.get().tps().poll(StatisticWindow.TicksPerSecond.SECONDS_5))

@@ -1,5 +1,6 @@
 package org.moddinginquisition.elconquistador.client
 
+import com.matyrobbrt.gml.bus.EventBusSubscriber
 import groovy.transform.CompileStatic
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.components.toasts.SystemToast
@@ -9,15 +10,13 @@ import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.event.ScreenEvent
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.thesilkminer.mc.austin.api.EventBus
-import net.thesilkminer.mc.austin.api.EventBusSubscriber
 import org.moddinginquisition.elconquistador.Configs
 import org.moddinginquisition.elconquistador.OptifineHandler
 
 import static org.moddinginquisition.elconquistador.ElConquistador.*
 
 @CompileStatic
-@EventBusSubscriber(modId = MOD_ID, bus = EventBus.FORGE, dist = Dist.CLIENT)
+@EventBusSubscriber(modId = MOD_ID, dist = Dist.CLIENT)
 class ClientForgeBusEvents {
 
     static int counter = 0

@@ -1,5 +1,7 @@
 package org.moddinginquisition.elconquistador.client
 
+import com.matyrobbrt.gml.bus.EventBusSubscriber
+import com.matyrobbrt.gml.bus.type.ModBus
 import ga.ozli.minecraftmods.groovylicious.api.ConfigUtils
 import ga.ozli.minecraftmods.groovylicious.api.gui.Alignment
 import ga.ozli.minecraftmods.groovylicious.api.gui.ExtensibleScreen
@@ -8,15 +10,14 @@ import groovy.transform.CompileStatic
 import net.minecraft.client.Minecraft
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent
 import net.minecraftforge.fml.loading.FMLPaths
-import net.thesilkminer.mc.austin.api.EventBus
-import net.thesilkminer.mc.austin.api.EventBusSubscriber
 
 import static org.moddinginquisition.elconquistador.ElConquistador.MOD_ID
 
 @CompileStatic
-@EventBusSubscriber(modId = MOD_ID, bus = EventBus.MOD, dist = Dist.CLIENT)
+@EventBusSubscriber(value = ModBus, dist = Dist.CLIENT)
 class ClientModBusEvents {
 
     static final ExtensibleScreen configScreen = ScreenBuilder.makeScreen('ElConquistador Config Screen') {
@@ -67,7 +68,7 @@ class ClientModBusEvents {
 
     @SubscribeEvent
     static void onModConstruction(final FMLConstructModEvent event) {
-        ConfigUtils.registerConfigScreen(MOD_ID, configScreen)
-        //ModLoadingContext.get().registerConfigScreen(configScreen)
+        //ConfigUtils.registerConfigScreen(MOD_ID, configScreen)
+        ModLoadingContext.get().registerConfigScreen(configScreen)
     }
 }
